@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import "./App.css";
 
-function App() {
+import Home from "./pages/Home";
+import Rooms from "./pages/Rooms";
+import SingleRoom from "./pages/SingleRoom";
+import Error from "./pages/Error";
+import Navbar from "./components/Navbar";
+import RoomProvider from "./context/context";
+import FeaturedRooms from "./components/FeaturedRooms";
+
+const App = props => {
+  let content = <Rooms />;
+  // if (roomContext.pets) {
+  //   content = <FeaturedRooms />;
+  // }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <RoomProvider>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/single/:slug" component={SingleRoom} />
+          <Route exact path="/rooms/" component={Rooms} />
+          <Route component={Error} />
+        </Switch>
+      </Router>
+    </RoomProvider>
   );
-}
+};
 
 export default App;
